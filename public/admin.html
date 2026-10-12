@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; object-src 'none'; base-uri 'none'; form-action 'self'" />
+    <title data-i18n="admin.brand">Links curtos</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/base.css" />
+    <link rel="stylesheet" href="/assets/app.css" />
+    <script type="module" src="/assets/admin.js"></script>
+  </head>
+  <body>
+    <main id="setup" class="login" hidden>
+      <div class="card stack">
+        <h1 data-i18n="admin.setupTitle"></h1>
+        <p data-i18n="admin.setupText"></p>
+        <ul class="setup-steps">
+          <li data-i18n="admin.setupBohr"></li>
+          <li data-i18n="admin.setupWrangler"></li>
+          <li data-i18n="admin.setupLocal"></li>
+        </ul>
+      </div>
+    </main>
+
+    <main id="login" class="login" hidden>
+      <form id="login-form" class="card stack">
+        <h1 data-i18n="admin.loginTitle"></h1>
+        <p class="muted" data-i18n="admin.loginText"></p>
+        <input type="text" name="username" value="admin" autocomplete="username" hidden />
+        <label class="field">
+          <span data-i18n="admin.password"></span>
+          <input type="password" name="password" autocomplete="current-password" required maxlength="256" />
+        </label>
+        <p id="login-error" class="alert error" role="alert" hidden></p>
+        <button class="btn primary block" type="submit" data-i18n="admin.login"></button>
+      </form>
+    </main>
+
+    <div id="admin" hidden>
+      <header class="admin-header">
+        <div class="container">
+          <span class="brand" data-i18n="admin.brand"></span>
+          <nav class="tabs" role="tablist">
+            <button type="button" role="tab" id="tab-links" aria-controls="panel-links" aria-selected="true" data-i18n="tab.links"></button>
+            <button type="button" role="tab" id="tab-home" aria-controls="panel-home" aria-selected="false" data-i18n="tab.home"></button>
+          </nav>
+          <a class="btn ghost small" href="/" target="_blank" rel="noopener" data-i18n="admin.viewSite"></a>
+          <button id="logout" class="btn small" type="button" data-i18n="admin.logout"></button>
+        </div>
+      </header>
+
+      <main class="container admin-main">
+        <section id="panel-links" role="tabpanel" aria-labelledby="tab-links" class="stack">
+          <div class="stats">
+            <div class="stat"><span class="muted small" data-i18n="stats.links"></span><strong id="stat-links">–</strong></div>
+            <div class="stat"><span class="muted small" data-i18n="stats.clicks"></span><strong id="stat-clicks">–</strong></div>
+            <div class="stat"><span class="muted small" data-i18n="stats.week"></span><strong id="stat-week">–</strong></div>
+          </div>
+
+          <form id="create" class="card create" novalidate>
+            <h2 class="create-title" data-i18n="create.title"></h2>
+            <label class="field create-url">
+              <span data-i18n="create.url"></span>
+              <input name="url" type="url" inputmode="url" required maxlength="2048" placeholder="https://" autocomplete="off" />
+            </label>
+            <label class="field create-slug">
+              <span><span data-i18n="create.slug"></span> <span class="muted small">(<span data-i18n="common.optional"></span>)</span></span>
+              <span class="prefixed">
+                <span class="prefix" id="slug-prefix" aria-hidden="true"></span>
+                <input name="slug" maxlength="64" pattern="[A-Za-z0-9_\-]{1,64}" autocomplete="off" spellcheck="false" data-i18n-placeholder="create.slugPlaceholder" />
+              </span>
+            </label>
+            <label class="field create-name">
+              <span><span data-i18n="create.name"></span> <span class="muted small">(<span data-i18n="common.optional"></span>)</span></span>
+              <input name="title" maxlength="120" autocomplete="off" />
+            </label>
+            <p class="create-preview muted small" aria-live="polite"><span data-i18n="create.preview"></span> <strong id="preview"></strong></p>
+            <p id="create-error" class="alert error create-error" role="alert" hidden></p>
+            <button class="btn primary create-submit" type="submit" data-i18n="create.submit"></button>
+          </form>
+
+          <div id="created" class="alert success created" role="status" hidden>
+            <span data-i18n="create.done"></span>
+            <a id="created-link" target="_blank" rel="noopener"></a>
+            <button id="created-copy" class="btn small" type="button" data-i18n="common.copy"></button>
+          </div>
+
+          <div class="toolbar">
+            <input id="search" type="search" class="grow" maxlength="100" data-i18n-placeholder="links.search" data-i18n-label="links.search" />
+            <a class="btn" href="/api/admin/links.csv" download data-i18n="links.export"></a>
+          </div>
+          <div class="table-wrap">
+            <table class="links">
+              <thead>
+                <tr>
+                  <th data-i18n="col.short"></th>
+                  <th data-i18n="col.destination"></th>
+                  <th class="num" data-i18n="col.clicks"></th>
+                  <th data-i18n="col.week"></th>
+                  <th data-i18n="col.created"></th>
+                  <th data-i18n="col.active"></th>
+                  <th><span class="sr-only" data-i18n="col.actions"></span></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <p id="empty" class="empty" hidden data-i18n="links.empty"></p>
+          <div class="pager">
+            <button id="prev" class="btn small" type="button" data-i18n="common.previous"></button>
+            <span id="page-info" class="muted small"></span>
+            <button id="next" class="btn small" type="button" data-i18n="common.next"></button>
+          </div>
+        </section>
+
+        <section id="panel-home" role="tabpanel" aria-labelledby="tab-home" hidden>
+          <form id="settings" class="card stack narrow" novalidate>
+            <h2 data-i18n="settings.title"></h2>
+            <p class="muted small" data-i18n="settings.hint"></p>
+            <label class="field">
+              <span data-i18n="settings.homeUrl"></span>
+              <input name="home_url" type="url" inputmode="url" maxlength="2048" placeholder="https://" autocomplete="off" />
+              <span class="hint" data-i18n="settings.homeUrlHint"></span>
+            </label>
+            <button class="btn primary" type="submit" data-i18n="common.save"></button>
+          </form>
+        </section>
+      </main>
+
+      <dialog id="details" class="wide" aria-labelledby="details-title">
+        <div class="stack">
+          <div class="row spread">
+            <h2 id="details-title"></h2>
+            <button id="details-close" class="btn ghost small" type="button" data-i18n="common.close"></button>
+          </div>
+          <p class="details-links small">
+            <a id="details-short" target="_blank" rel="noopener"></a>
+            <span aria-hidden="true">→</span>
+            <a id="details-url" class="muted" target="_blank" rel="noopener noreferrer"></a>
+          </p>
+          <div class="stats compact">
+            <div class="stat"><span class="muted small" data-i18n="details.total"></span><strong id="details-total"></strong></div>
+            <div class="stat"><span class="muted small" data-i18n="details.last30"></span><strong id="details-last30"></strong></div>
+            <div class="stat"><span class="muted small" data-i18n="details.last7"></span><strong id="details-last7"></strong></div>
+          </div>
+          <figure class="chart">
+            <figcaption class="small muted" data-i18n="details.chart"></figcaption>
+            <div id="details-chart"></div>
+            <div class="chart-axis small muted"><span id="details-from"></span><span id="details-to"></span></div>
+            <p id="details-tip" class="chart-tip small" aria-live="polite"></p>
+          </figure>
+          <p class="small muted" id="details-meta"></p>
+          <details class="small">
+            <summary data-i18n="details.table"></summary>
+            <div class="table-wrap day-table">
+              <table>
+                <thead>
+                  <tr><th data-i18n="details.day"></th><th class="num" data-i18n="col.clicks"></th></tr>
+                </thead>
+                <tbody id="details-rows"></tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+      </dialog>
+
+      <dialog id="edit" aria-labelledby="edit-title">
+        <form id="edit-form" class="stack" novalidate>
+          <h2 id="edit-title" data-i18n="edit.title"></h2>
+          <p class="small"><strong id="edit-short"></strong></p>
+          <label class="field">
+            <span data-i18n="create.url"></span>
+            <input name="url" type="url" inputmode="url" required maxlength="2048" autocomplete="off" />
+          </label>
+          <label class="field">
+            <span><span data-i18n="create.name"></span> <span class="muted small">(<span data-i18n="common.optional"></span>)</span></span>
+            <input name="title" maxlength="120" autocomplete="off" />
+          </label>
+          <label class="check"><input type="checkbox" name="active" /> <span data-i18n="edit.active"></span></label>
+          <p id="edit-error" class="alert error" role="alert" hidden></p>
+          <div class="row">
+            <button class="btn primary" type="submit" data-i18n="common.save"></button>
+            <button id="edit-cancel" class="btn" type="button" data-i18n="common.cancel"></button>
+          </div>
+        </form>
+      </dialog>
+    </div>
+  </body>
+</html>

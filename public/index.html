@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; object-src 'none'; base-uri 'none'; form-action 'self'" />
+    <title data-i18n="home.title">Links curtos</title>
+    <meta name="description" content="Links curtos para o seu domínio." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/base.css" />
+    <link rel="stylesheet" href="/assets/app.css" />
+    <script type="module" src="/assets/app.js"></script>
+  </head>
+  <body>
+    <div class="hero-bg" aria-hidden="true"></div>
+    <main class="container home">
+      <p class="eyebrow" data-i18n="home.eyebrow"></p>
+      <h1><span data-i18n="home.headline"></span> <span id="domain" class="domain"></span></h1>
+      <p class="lead" data-i18n="home.description"></p>
+
+      <figure class="card demo">
+        <figcaption class="sr-only" data-i18n="home.demoCaption"></figcaption>
+        <div class="demo-row">
+          <span class="demo-label muted small" data-i18n="home.before"></span>
+          <code class="demo-long">https://www.example.com/blog/2026/10/our-biggest-launch-of-the-year?utm_source=newsletter&amp;utm_medium=email</code>
+        </div>
+        <div class="demo-arrow" aria-hidden="true">↓</div>
+        <div class="demo-row">
+          <span class="demo-label muted small" data-i18n="home.after"></span>
+          <code class="demo-short"><span id="demo-host"></span>/launch</code>
+        </div>
+      </figure>
+
+      <ul class="features">
+        <li><strong data-i18n="home.feature1"></strong><span class="muted" data-i18n="home.feature1Text"></span></li>
+        <li><strong data-i18n="home.feature2"></strong><span class="muted" data-i18n="home.feature2Text"></span></li>
+        <li><strong data-i18n="home.feature3"></strong><span class="muted" data-i18n="home.feature3Text"></span></li>
+      </ul>
+
+      <a class="btn primary" href="/admin" data-i18n="home.admin"></a>
+    </main>
+  </body>
+</html>

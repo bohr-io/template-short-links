@@ -1,0 +1,444 @@
+/* Short links: this template's colors, the home page and the admin's extras. */
+
+:root {
+  --accent: #0e7490;
+  --accent-strong: #155e75;
+  --on-accent: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #22d3ee;
+    --accent-strong: #67e8f9;
+    --on-accent: #06171c;
+  }
+}
+
+/* Home page */
+.hero-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60rem 30rem at 0% -10%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
+    radial-gradient(40rem 30rem at 110% 20%, color-mix(in srgb, #3b82f6 14%, transparent), transparent 70%);
+}
+
+.home {
+  min-height: 100dvh;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding-block: 3rem;
+}
+
+.home > * {
+  margin: 0;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+}
+
+.domain {
+  color: var(--accent-strong);
+  overflow-wrap: anywhere;
+}
+
+.lead {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 36rem;
+}
+
+.demo {
+  width: 100%;
+  margin: 0.5rem 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.demo-row {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.demo-label {
+  font-weight: 600;
+}
+
+.demo code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.demo-long {
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: var(--surface-2);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--muted) 50%, transparent);
+}
+
+.demo-short {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+}
+
+.demo-arrow {
+  color: var(--accent);
+  font-weight: 700;
+  padding-left: 0.75rem;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.features li {
+  display: grid;
+  gap: 0.2rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid var(--accent);
+}
+
+/* Admin: create form */
+.create {
+  display: grid;
+  grid-template-columns: 1.6fr 1.5fr 1fr auto;
+  grid-template-areas:
+    'title title title title'
+    'url slug name submit'
+    'preview preview preview preview'
+    'error error error error';
+  gap: 0.75rem 1rem;
+  align-items: end;
+}
+
+.create-title {
+  grid-area: title;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.create-url {
+  grid-area: url;
+}
+
+.create-slug {
+  grid-area: slug;
+}
+
+.create-name {
+  grid-area: name;
+}
+
+.create-submit {
+  grid-area: submit;
+}
+
+.create-preview {
+  grid-area: preview;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.create-error {
+  grid-area: error;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .create {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'title title'
+      'url url'
+      'slug name'
+      'preview preview'
+      'error error'
+      'submit submit';
+  }
+}
+
+@media (max-width: 560px) {
+  .create {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'title' 'url' 'slug' 'name' 'preview' 'error' 'submit';
+  }
+}
+
+/* An input with a fixed prefix (the site's address) in front of it */
+.prefixed {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.prefixed:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.prefixed .prefix {
+  flex: 0 0 auto;
+  display: block;
+  align-self: center;
+  align-items: center;
+  padding: 0 0.1rem 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prefixed input,
+.prefixed input:focus {
+  flex: 1 1 4rem;
+  width: auto;
+  min-width: 4rem;
+  border: 0;
+  box-shadow: none;
+  padding-left: 0.1rem;
+}
+
+.created {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+}
+
+.created a {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+/* Admin: the links table */
+.short-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.short-cell a {
+  font-weight: 600;
+}
+
+.icon-btn {
+  min-height: 1.9rem;
+  padding: 0.2rem 0.4rem;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.link-title {
+  display: block;
+  font-weight: 600;
+}
+
+.destination {
+  display: block;
+  max-width: 15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--muted);
+}
+
+.inactive td:nth-child(-n + 5) {
+  opacity: 0.55;
+}
+
+.actions {
+  display: flex;
+  gap: 0.35rem;
+  justify-content: flex-end;
+}
+
+/* Sparkline (last 7 days) and the 30-day bar chart: drawn as SVG by admin.js */
+.spark {
+  display: block;
+  width: 84px;
+  height: 26px;
+  color: var(--accent);
+}
+
+.spark .area {
+  fill: var(--accent-soft);
+}
+
+.spark .line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.spark .dot {
+  fill: currentColor;
+}
+
+/* The active switch: a real checkbox drawn as a switch */
+.switch {
+  appearance: none;
+  position: relative;
+  width: 2.4rem;
+  height: 1.35rem;
+  margin: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--muted) 45%, var(--surface));
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+  transition: transform 0.15s;
+}
+
+.switch:checked {
+  background: var(--accent);
+}
+
+.switch:checked::after {
+  transform: translateX(1.05rem);
+}
+
+input.switch[type='checkbox'] {
+  width: 2.4rem;
+  height: 1.35rem;
+}
+
+/* Details dialog */
+dialog.wide {
+  width: min(100% - 2rem, 720px);
+}
+
+.details-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  overflow-wrap: anywhere;
+}
+
+.details-links a:first-child {
+  font-weight: 700;
+}
+
+.stats.compact {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+
+.stats.compact .stat {
+  padding: 0.7rem 0.9rem;
+}
+
+.stats.compact .stat strong {
+  font-size: 1.35rem;
+}
+
+.chart {
+  margin-inline: 0;
+  margin-bottom: 0;
+}
+
+.chart figcaption {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.bars {
+  display: block;
+  width: 100%;
+  height: 160px;
+}
+
+.bars .grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.bars .bar {
+  fill: var(--accent);
+}
+
+.bars .hit:hover + .bar,
+.bars .hit:focus + .bar {
+  fill: var(--accent-strong);
+}
+
+.bars .hit {
+  fill: transparent;
+  outline: none;
+}
+
+.bars .value {
+  fill: var(--muted);
+  font-size: 11px;
+}
+
+.chart-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+}
+
+.chart-tip {
+  min-height: 1.4em;
+  margin: 0.25rem 0 0;
+  text-align: center;
+}
+
+.day-table {
+  max-height: 16rem;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+}
